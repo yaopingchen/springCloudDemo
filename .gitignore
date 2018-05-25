@@ -1,7 +1,7 @@
 *.project
 *.class
-*/bin/  
-*/build/
-*/target/
+**/bin/  
+**/build/
+**/target/
 *.classpath
 *.prefs
