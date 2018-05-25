@@ -20,7 +20,7 @@ public class MessageSender {
 		return new  MessageSource<String>() {
 
 			public Message<String> receive() {
-					return new GenericMessage<String>("{\"name\":\"张三\",\"age\":25}");
+					return new GenericMessage<String>("{\"name\":\"张三\",\"age\":25,\"id\":5}");
 			}
 		};
 	}
