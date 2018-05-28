@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.InboundChannelAdapter;
-import org.springframework.integration.annotation.Poller;
 import org.springframework.integration.core.MessageSource;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,21 +18,17 @@ import com.business.client.dto.UserDTO;
 public class UserInfoService {
 	@Autowired
 	private UserClient userClient;
+	@Autowired
+	private CustomSource customSource;
 
 	@GetMapping("/getUser")
 	public UserDTO getUser(String nick) {
+		sendMsg();
 		return userClient.queryUserByNick(nick);
 	}
 
-	@Bean
-	@InboundChannelAdapter(value = CustomSource.MYOUTPUT, poller = @Poller(fixedDelay = "10000"))
-	public MessageSource<String> timerMessageSource() {
-		return new MessageSource<String>() {
-
-			public Message<String> receive() {
-				return new GenericMessage<String>("{\"nick\":\"张三\",\"age\":25}");
-			}
-		};
+	private void sendMsg() {
+		customSource.myOutput().send(MessageBuilder.withPayload("{\"nick\":\"张三\",\"age\":25}").build());
+		
 	}
-
 }
