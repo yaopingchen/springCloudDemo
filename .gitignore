@@ -1,6 +1,7 @@
 *.project
 *.class
 **/bin/  
+**/.idea/  
 **/build/
 **/target/
 *.classpath
